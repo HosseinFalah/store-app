@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const createHttpError = require('http-errors');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const cors = require('cors');
 
 const { AllRoutes } = require('./router/router');
 
@@ -24,6 +25,7 @@ module.exports = class Application {
     };
 
     configApplication() {
+        this.#app.use(cors());
         this.#app.use(morgan('dev'));
         this.#app.use(express.json());
         this.#app.use(express.urlencoded({ extended: true }));
@@ -66,16 +68,16 @@ module.exports = class Application {
 
         mongoose.connection.on('connected', () => {
             console.log("mongoose connected to DB");
-        })
+        });
 
         mongoose.connection.on('disconnected', () => {
             console.log("mongoose connection is disconnected");
-        })
+        });
 
         process.on('SIGINT', async () => {
             await mongoose.connection.close();
             process.exit(0);
-        })
+        });
     }
 
     createRoutes() {
