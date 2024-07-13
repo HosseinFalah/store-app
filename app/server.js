@@ -82,7 +82,7 @@ module.exports = class Application {
     }
 
     initRedis() {
-        require("./utils/init_redis")
+        require("./utils/init_redis").initRedis();
     }
 
     createRoutes() {

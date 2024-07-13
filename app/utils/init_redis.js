@@ -1,10 +1,28 @@
-const redisDB = require('redis');
+const redis = require('redis');
 
-const redisClient = redisDB.createClient();
-redisClient.connect();
-redisClient.on('connect', () => console.log("Connect to Redis!"));
-redisClient.on('ready', (err) => console.log("connected to redis and ready to use ..."));
-redisClient.on('error', (err) => console.log("Redis Error", err.message));
-redisClient.on('end', () => console.log("disconnected from redis ..."));
+const initRedis = () => {
+    const redisClient = redis.createClient()
+    redisClient.connect();
+  
+    redisClient.on('connect', () => {
+        console.log('✅ —> Connected to Redis')
+    })
+  
+    redisClient.on('ready', () => {
+        console.log('✅ —> Redis is ready to use')
+    })
+  
+    redisClient.on('error', err => {
+        console.error('❌ —> Redis Error:', err.message)
+    })
+  
+    redisClient.on('end', () => {
+        console.log('❌ —> Redis disconnected!')
+    })
+  
+    return redisClient
+}
 
-module.exports = redisClient;
+module.exports = {
+    initRedis
+}
