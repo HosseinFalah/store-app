@@ -2,7 +2,7 @@ const createHttpError = require("http-errors");
 const { getOTPSchema, checkOTPSchema } = require("../../../validators/user/auth.schema");
 const { RandomNumberGenerator, SignAccessToken, VerifyRefreshToken, SignRefreshToken } = require("../../../../utils/functions");
 const UserModel = require("../../../../models/users.model");
-const { EXPIRESIN, USRE_ROLE } = require("../../../../utils/constans");
+const { EXPIRESIN, USRE_ROLE, ROLES } = require("../../../../utils/constans");
 const Controller = require("../../controller");
 
 class UserAuthController extends Controller {
@@ -78,7 +78,7 @@ class UserAuthController extends Controller {
             return (await this.updateUser(mobile, { otp }));
         }
 
-        return !!(await UserModel.create({mobile, otp, Rolse: [USRE_ROLE]}));
+        return !!(await UserModel.create({mobile, otp, Rolse: [ROLES.USER]}));
     }
 
     async checkExistUser(mobile) {
