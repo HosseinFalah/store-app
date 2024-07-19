@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const createHttpError = require("http-errors");
+const path = require('path');
+const fs = require('fs');
 const { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } = require("./constans");
 const UserModel = require("../models/users.model");
 const { initRedis } = require("./init_redis");
@@ -56,16 +58,25 @@ function VerifyRefreshToken (token)  {
             const user = await UserModel.findOne({ mobile }, { password: 0, otp: 0 });
             if (!user) reject(createHttpError.Unauthorized("حساب کاربری یافت نشد"));
             const redisClient = initRedis();
-            const refreshToken = await redisClient.get(String(user._id));
+            const refreshToken = await redisClient.get(String(user._id) || "key_default");
+            if (!refreshToken) reject(createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد"));
             if(token === refreshToken) return resolve(mobile);
             reject(createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد"));
         });
     })
+};
+
+function deleteFileInPublic(fileAddress) {
+    if (fileAddress) {        
+        const pathFile = path.join(__dirname, "..", "..", "public", fileAddress);
+        if (fs.existsSync(pathFile)) fs.unlinkSync(pathFile);
+    }
 }
 
 module.exports = {
     RandomNumberGenerator,
     SignAccessToken,
     SignRefreshToken,
-    VerifyRefreshToken
+    VerifyRefreshToken,
+    deleteFileInPublic
 }

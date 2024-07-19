@@ -12,6 +12,11 @@ const UserSchema = new Schema({
     discount: { type: Number, default: 0 },
     birthday: { type: String },
     Rolse: { type: [String], default: ["USER"]}
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true
+    }
 });
 
 const UserModel = model('User', UserSchema);
