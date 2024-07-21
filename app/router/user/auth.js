@@ -5,6 +5,40 @@ const router = Router();
 
 /**
  * @swagger
+ *  components:
+ *      schemas:
+ *          GetOTP:
+ *              type: object
+ *              required:
+ *                  -   mobile
+ *              properties:
+ *                  mobile:
+ *                      type: string
+ *                      description: the user mobile for signup/signin
+ *          checkOTP:
+ *              type: object
+ *              required:
+ *                  -   mobile
+ *                  -   code
+ *              properties:
+ *                  mobile:
+ *                      type: string
+ *                      description: the user mobile for signup/signin
+ *                  code:
+ *                      type: integer
+ *                      description: reviced code from getOTP
+ *          RefreshToken:
+ *              type: object
+ *              required:
+ *                  -   refreshToken
+ *              properties:
+ *                  refreshToken:
+ *                      type: string
+ *                      description: enter refresh-token for get refresh token
+ */
+
+/**
+ * @swagger
  *  tags:
  *      name: User-Authentication
  *      description: user-auth section
@@ -16,14 +50,17 @@ const router = Router();
  *      post:
  *          tags: [User-Authentication]
  *          summary: login user in userpanel with phone nunmber
- *          description: one time passowrd OTP Login
- *          parameters:
- *          -   name: mobile
- *              description: fa-IRI phonenumber
- *              in: formData
+ *          description: one time passowrd (OTP) Login
+ *          requestBody:
  *              required: true
- *              type: string
- *          responses: 
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/GetOTP'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/GetOTP'
+ *          responses:
  *              201:
  *                  description: Success
  *              400:
@@ -43,17 +80,15 @@ router.post(`/get-otp`, UserAuthController.getOTP);
  *          tags: [User-Authentication]
  *          summary: check-otp value in user controller
  *          description: check otp with code mobile expires date
- *          parameters: 
- *          -   name: mobile
- *              description: fa-IRI phonenumber
- *              in: formData
+ *          requestBody:
  *              required: true
- *              type: string
- *          -   name: code
- *              description: enter sms code recived
- *              in: formData
- *              required: true
- *              type: string
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/checkOTP'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/checkOTP'    
  *          responses: 
  *              201:
  *                  description: Success
@@ -72,11 +107,15 @@ router.post(`/check-otp`, UserAuthController.checkOTP);
  *          tags: [User-Authentication]
  *          summary: send refresh token for get new token and refresh token
  *          description: refresh token
- *          parameters:
- *              -   in: formData
- *                  required: true
- *                  type: string
- *                  name: refreshToken
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/RefreshToken'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/RefreshToken'
  *          responses:
  *              200:
  *                  description: success
