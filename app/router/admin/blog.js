@@ -7,16 +7,44 @@ const router = Router();
 
 /**
  * @swagger
+ *  components:
+ *      schemas:
+ *          Blog:
+ *              type: object
+ *              required:
+ *                  -   title
+ *                  -   short_text
+ *                  -   text
+ *                  -   tags
+ *                  -   category
+ *                  -   image
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of category
+ *                  short_text:
+ *                      type: string
+ *                      description: the summary of text blog
+ *                  text:
+ *                      type: string
+ *                      description: the text of blog
+ *                  tags:
+ *                      type: string
+ *                      description: the list of tags for example(tag1#tag2#tag3)
+ *                  category:
+ *                      type: string
+ *                      description: the id of category for foreinField in blog
+ *                  image:
+ *                      type: file
+ *                      description: the index picture of blog
+ */
+
+/**
+ * @swagger
  *  /admin/blogs:
  *      get:
  *          tags: [Blog(AdminPanel)]
  *          summary: get all blog
- *          parameters:
- *              -   in: header
- *                  example: Bearer token ...
- *                  name: access-token
- *                  type: string
- *                  required: true
  *          responses:
  *              200:
  *                  description: success
@@ -30,40 +58,12 @@ router.get(`/`, AdminBlogController.getAllBlogs);
  *      post:
  *          tags: [Blog(AdminPanel)]
  *          summary: create Blog document
- *          consumes:
- *              -   multipart/form-data
- *              -   application/x-www-form-data-urlencoded
- *              -   application/json
- *          parameters:
- *              -   in: header
- *                  example: Bearer token ...
- *                  name: access-token
- *                  type: string
- *                  required: true
- *              -   in: formData
- *                  name: title
- *                  required: true
- *                  type: string
- *              -   in: formData
- *                  name: text
- *                  required: true
- *                  type: string
- *              -   in: formData
- *                  name: short_text
- *                  required: true
- *                  type: string
- *              -   in: formData
- *                  name: tags
- *                  example: tag1#tag2#tag3_foo#foo_bar || str || undefined
- *                  type: string
- *              -   in: formData
- *                  name: category
- *                  required: true
- *                  type: string
- *              -   in: formData
- *                  name: image
- *                  required: true
- *                  type: file
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Blog'
  *          responses:
  *              201:
  *                  description: created
@@ -78,12 +78,6 @@ router.post(`/add`, uploadFile.single('image'), stringToArray('tags'), AdminBlog
  *          summary: get blog by ID and populate this field
  *          tags: [Blog(AdminPanel)]
  *          parameters:
- *              -   in: header
- *                  example: Bearer token ...
- *                  name: access-token
- *                  value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTAzNTc4NjMyMSIsImlhdCI6MTcyMTM4MDc5OSwiZXhwIjoxNzIxMzg0Mzk5fQ.vZTCtrJ8gET7do_U1A0PuoPMmPncB_ovsBgGmsGwYrU
- *                  type: string
- *                  required: true
  *              -   in: path
  *                  name: id
  *                  type: string
@@ -102,12 +96,6 @@ router.get(`/:id`, AdminBlogController.getBlogById);
  *          summary: remove blog by ID
  *          tags: [Blog(AdminPanel)]
  *          parameters:
- *              -   in: header
- *                  example: Bearer token ...
- *                  name: access-token
- *                  value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTAzNTc4NjMyMSIsImlhdCI6MTcyMTM4MDc5OSwiZXhwIjoxNzIxMzg0Mzk5fQ.vZTCtrJ8gET7do_U1A0PuoPMmPncB_ovsBgGmsGwYrU
- *                  type: string
- *                  required: true
  *              -   in: path
  *                  name: id
  *                  type: string
@@ -130,11 +118,6 @@ router.delete(`/:id`, AdminBlogController.deleteBlogById);
  *              -   application/x-www-form-data-urlencoded
  *              -   application/json
  *          parameters:
- *              -   in: header
- *                  example: Bearer token ...
- *                  name: access-token
- *                  type: string
- *                  required: true
  *              -   in: path
  *                  name: id
  *                  type: string
@@ -168,3 +151,5 @@ router.patch(`/update/:id`, uploadFile.single('image'), stringToArray('tags'), A
 module.exports = {
     BlogAdminApiRoutes: router
 }
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTAzNTc4NjMyMSIsImlhdCI6MTcyMTYzMDI3NCwiZXhwIjoxNzIxNjMzODc0fQ.Mm46SyVEtvGCL_v5p5LUZw6yYelqyNy8AtPzgCncSjg
