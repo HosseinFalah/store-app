@@ -150,6 +150,4 @@ router.patch(`/update/:id`, uploadFile.single('image'), stringToArray('tags'), A
 
 module.exports = {
     BlogAdminApiRoutes: router
-}
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTAzNTc4NjMyMSIsImlhdCI6MTcyMTYzMDI3NCwiZXhwIjoxNzIxNjMzODc0fQ.Mm46SyVEtvGCL_v5p5LUZw6yYelqyNy8AtPzgCncSjg
+};

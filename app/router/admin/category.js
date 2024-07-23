@@ -146,10 +146,15 @@ router.get(`/:id`, CategoryController.getCategoryById);
  *                  name: id
  *                  type: string
  *                  required: true
- *              -   in: formData
- *                  name: title
- *                  type: string
- *                  required: true
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Category'
  *          responses:
  *              200:
  *                  description: success
@@ -160,5 +165,5 @@ router.get(`/:id`, CategoryController.getCategoryById);
 router.patch(`/update/:id`, CategoryController.editCategory);
 
 module.exports = {
-    CategoryRoutes: router
+    CategoryAdminApiRoutes: router
 };
