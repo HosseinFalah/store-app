@@ -9,9 +9,28 @@ const router = Router();
  * @swagger
  *  components:
  *      schemas:
+ *          Color:
+ *              type: array
+ *              items: 
+ *                  type: string
+ *                  enum:
+ *                      -   black
+ *                      -   white
+ *                      -   gray                
+ *                      -   red
+ *                      -   blue
+ *                      -   green
+ *                      -   orange
+ *                      -   purple
+ */ 
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
  *          Product:
  *              type: object
- *              required:
+ *              required: 
  *                  -   title
  *                  -   short_text
  *                  -   text
@@ -23,43 +42,63 @@ const router = Router();
  *              properties:
  *                  title:
  *                      type: string
- *                      description: title of product
+ *                      description: the title of product
+ *                      example: عنوان محصول
  *                  short_text:
  *                      type: string
- *                      description: short_text of product
+ *                      description: the title of product
+ *                      example: متن کوتاه شده تستی
  *                  text:
  *                      type: string
- *                      description: content a Large of product
+ *                      description: the title of product
+ *                      example: متن بلد تستی
  *                  tags:
  *                      type: array
- *                      description: tags of product
+ *                      description: the title of product
  *                  category:
  *                      type: string
- *                      description: category of product
+ *                      description: the title of product
+ *                      example: 6279e994c1e47a98d0f356d3
  *                  price:
  *                      type: string
- *                      description: price of product
+ *                      description: the title of product
+ *                      example: 2500000
  *                  discount:
  *                      type: string
- *                      description: discount of product
+ *                      description: the title of product
+ *                      example: 20
  *                  count:
  *                      type: string
- *                      description: count of product
- *                  image:
- *                      type: file
- *                      description: image of product
- *                  length:
- *                      type: string
- *                      description: the length of product packet
+ *                      description: the title of product
+ *                      example: 100
+ *                  images:
+ *                      type: array
+ *                      items:
+ *                          type: string
+ *                          format: binary
  *                  height:
  *                      type: string
  *                      description: the height of product packet
- *                  width:
- *                      type: string
- *                      description: the width of product packet
+ *                      example: 0
  *                  weight:
  *                      type: string
  *                      description: the weight of product packet
+ *                      example: 0
+ *                  width:
+ *                      type: string
+ *                      description: the with of product packet
+ *                      example: 0
+ *                  length:
+ *                      type: string
+ *                      description: the length of product packet
+ *                      example: 0
+ *                  type:
+ *                      type: string
+ *                      description: the type of product 
+ *                      example: virtual - physical
+ *                  colors:
+ *                      $ref: '#/components/schemas/Color'
+ *                      
  */
 
 /**
@@ -79,7 +118,7 @@ const router = Router();
  *                  description: created new Product
  */
 
-router.post(`/add`, uploadFile.single('image'), stringToArray('tags'), ProductController.addProduct);
+router.post(`/add`, uploadFile.array('images', 10), stringToArray('tags', 'colors'), ProductController.addProduct);
 
 /**
  * @swagger
@@ -93,6 +132,42 @@ router.post(`/add`, uploadFile.single('image'), stringToArray('tags'), ProductCo
  */
 
 router.get('/list', ProductController.getAllProducts);
+
+/**
+ * @swagger
+ *  /admin/products/{id}:
+ *      get:
+ *          tags: [Product(AdminPanel)]
+ *          summary: get product by id
+ *          parameters:
+ *              -   in: path
+ *                  name: id
+ *                  type: string
+ *                  description: objectId of product
+ *          responses:
+ *              200:
+ *                  description: success
+ */
+
+router.get('/:id', ProductController.getProductById);
+
+/**
+ * @swagger
+ *  /admin/products/remove/{id}:
+ *      delete:
+ *          tags: [Product(AdminPanel)]
+ *          summary: remove product
+ *          parameters:
+ *              -   in: path
+ *                  name: id
+ *                  type: string
+ *                  description: objectId of product
+ *          responses:
+ *              200:
+ *                  description: success
+ */
+
+router.delete(`/remove/:id`, ProductController.removeProductById);
 
 module.exports = {
     ProductAdminApiRoutes: router
