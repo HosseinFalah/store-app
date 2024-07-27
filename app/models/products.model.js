@@ -15,10 +15,10 @@ const ProductSchema = new Schema({
     price: { type: Number, default: 0 },
     discount: { type: Number, default: 0 },
     count: { type: Number },
-    type: { type: String, required: true}, // virtual - pysici
+    type: { type: String, required: true}, // virtual - physici
     format: { type: String },
     supplier: { type: mongoose.Types.ObjectId, required: true },
-    feture: { type: Object, default: {
+    features: { type: Object, default: {
         length: "",
         height: "",
         width: "",
@@ -28,6 +28,8 @@ const ProductSchema = new Schema({
         madein: ""
     }}
 });
+
+ProductSchema.index({ title: "text", short_text: "text", text: "text" });
 
 const ProductModel = model('Product', ProductSchema);
 

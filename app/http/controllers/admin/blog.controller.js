@@ -129,11 +129,9 @@ class BlogController extends Controller {
             let nullishData = ["", " ", 0, null, undefined];
             let blackListFields = ["likes", "deslikes", "bookmarks", "comments"];
             Object.keys(data).forEach(key => {
-                console.log(key);
-                console.log(data[key]);
                 if (blackListFields.includes(key)) delete data[key];
                 if (typeof data[key] == "string") data[key] = data[key].trim();
-                if (Array.isArray(data[key]) && Array.length > 0) data[key] = data[key].map(item => item.trim()); 
+                if (Array.isArray(data[key]) && data[key].length > 0) data[key] = data[key].map(item => item.trim()); 
                 if (nullishData.includes(data[key])) delete data[key];
             })
             
