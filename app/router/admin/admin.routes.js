@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { CategoryAdminApiRoutes } = require("./category");
 const { BlogAdminApiRoutes } = require("./blog");
 const { ProductAdminApiRoutes } = require("./product");
+const { CourseAdminApiRoutes } = require("./course");
 
 const router = Router();
 
@@ -10,6 +11,8 @@ const router = Router();
  *  tags:
  *      -   name: Admin-Panel
  *          description: action of admin (add, remove, edit and any)
+ *      -   name: Course(AdminPanel)
+ *          description: managment course section like manage episode, chapter and courses
  *      -   name: Product(AdminPanel)
  *          description: management product route
  *      -   name: Category(AdminPanel)
@@ -23,6 +26,7 @@ const router = Router();
 router.use(`/category`, CategoryAdminApiRoutes);
 router.use(`/blogs`, BlogAdminApiRoutes);
 router.use(`/products`, ProductAdminApiRoutes);
+router.use(`/courses`, CourseAdminApiRoutes)
 
 module.exports = {
     AdminRoutes: router

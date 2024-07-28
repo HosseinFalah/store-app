@@ -1,4 +1,4 @@
-const { Schema, model, model, default: mongoose } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 const { CommentSchema } = require("./public.schema");
 
 const Episodes = new Schema({
@@ -28,11 +28,14 @@ const CourseSchema = new Schema({
     price: { type: Number, default: 0 },
     discount: { type: Number, default: 0 },
     type: { type: String, default: "free", required: true}, // virtual - pysici
+    status: { type: String, default: "notStarted"}, /*notStarted, Completed, Holding */
     time: { type: String, default: "00:00:00"},
     teacher: { type: mongoose.Types.ObjectId, ref: "User", required: true},
-    chapter: { type: [Chapter], default: [] },
+    chapters: { type: [Chapter], default: [] },
     students: { type: [mongoose.Types.ObjectId], default: [], ref: "User" }
 });
+
+CourseSchema.index({ title: "text", short_text: "text", text: "text" });
 
 const CourseModel = model('Course', CourseSchema);
 
