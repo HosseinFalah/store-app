@@ -4,6 +4,7 @@ const Controller = require("../controller");
 const BlogModel = require('../../../models/blogs.model');
 const { deleteFileInPublic } = require('../../../utils/functions');
 const createHttpError = require('http-errors');
+const { StatusCodes } = require('http-status-codes');
 
 class BlogController extends Controller {
     async createBlog(req, res, next) {
@@ -15,9 +16,9 @@ class BlogController extends Controller {
             const image = req.body.image;
             const author = req.user._id;
             const blog = await BlogModel.create({ title, image, text, short_text, tags, category, author });
-            return res.status(201).json({
+            return res.status(StatusCodes.CREATED).json({
+                statusCode: StatusCodes.CREATED,
                 data: {
-                    statusCode: 201,
                     message: "ایجاد بلاگ با موفقعیت انجام شد"
                 }
             });
@@ -31,9 +32,9 @@ class BlogController extends Controller {
         try {
             const { id } = req.params;
             const blog = await this.findBlog(id);
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     blog
                 }
             })
@@ -79,22 +80,14 @@ class BlogController extends Controller {
                     }
                 }
             ])
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     blogs
                 }
             })
         } catch (error) {
             next(error);
-        }
-    }
-
-    async getCommentsOfBlog(req, res, next) {
-        try {
-            
-        } catch (error) {
-            next(error)
         }
     }
 
@@ -104,9 +97,9 @@ class BlogController extends Controller {
             await this.findBlog(id);
             const result = await BlogModel.deleteOne({ _id: id });
             if (result.deletedCount === 0) throw createHttpError.InternalServerError('حذف انجام نشد');
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     message: "حذف مقاله با موفقعیت انجام شد"
                 }
             })
@@ -138,9 +131,9 @@ class BlogController extends Controller {
             const updateResult = await BlogModel.updateOne({ _id: id }, { $set: data });
             if (updateResult.modifiedCount == 0) throw createHttpError.InternalServerError("به روزرسانی انجام نشد");
             
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     message: "به روزرسانی بلاگ با موفقعیت انجام شد"
                 }
             });

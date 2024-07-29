@@ -36,8 +36,8 @@ class ProductController extends Controller {
             const product = await ProductModel.create({ title, text ,short_text, tags, category, price, discount, count, images, features, supplier, type });
 
             return res.status(StatusCodes.CREATED).json({
+                statusCode: StatusCodes.CREATED,
                 data: {
-                    statusCode: StatusCodes.CREATED,
                     message: "ثبت محصول با موفقعیت ثبت شد"
                 }
             })
@@ -61,7 +61,9 @@ class ProductController extends Controller {
             if (updateProductResult.modifiedCount == 0) throw { status: createHttpError.InternalServerError, message: "خطای داخلی" };
             return res.status(StatusCodes.OK).json({
                 statusCode: StatusCodes.OK,
-                message: "به روز رسانی با موفقعیت انجام شد"
+                data: {
+                    message: "به روز رسانی با موفقعیت انجام شد"
+                }
             });
         } catch (error) {
             next(error)
@@ -76,7 +78,9 @@ class ProductController extends Controller {
             if (removeProductResult.deletedCount == 0) throw createHttpError.InternalServerError();
             return res.status(StatusCodes.OK).json({
                 statusCode: StatusCodes.OK,
-                message: "حذف محصول با موفقعیت انجام شد"
+                data: {
+                    message: "حذف محصول با موفقعیت انجام شد"
+                }
             });
         } catch (error) {
             next(error)
@@ -99,8 +103,8 @@ class ProductController extends Controller {
             }
             
             return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: StatusCodes.OK,
                     products
                 }
             })  
@@ -115,7 +119,9 @@ class ProductController extends Controller {
             const product = await this.findProductById(id);
             return res.status(StatusCodes.OK).json({
                 statusCode: StatusCodes.OK,
-                product
+                data: {
+                    product
+                }
             })
         } catch (error) {
             next(error);

@@ -1,9 +1,9 @@
 const path = require('path');
+const createHttpError = require('http-errors');
 const { StatusCodes } = require('http-status-codes');
 const Controller = require("../controller");
 const CourseModel = require("../../../models/courses.model");
 const { createCourseSchema } = require('../../validators/admin/course.schema');
-const createHttpError = require('http-errors');
 
 class CourseController extends Controller {
     async getAllCourse(req, res, next) {
@@ -15,7 +15,9 @@ class CourseController extends Controller {
             else courses = await CourseModel.find({}).sort({ _id: -1 });
             return res.status(StatusCodes.OK).json({
                 statusCode: StatusCodes.OK,
-                courses
+                data: {
+                    courses
+                }
             })
         } catch (error) {
             next(error)
@@ -50,7 +52,9 @@ class CourseController extends Controller {
             
             return res.status(StatusCodes.CREATED).json({ 
                 statusCode: StatusCodes.CREATED,
-                message: "دوره با موفقعیت ایجاد شد"
+                data: {
+                    message: "دوره با موفقعیت ایجاد شد"
+                }
             });
         } catch (error) {
             next(error);
@@ -66,7 +70,9 @@ class CourseController extends Controller {
 
             return res.status(StatusCodes.OK).json({
                 statusCode: StatusCodes.OK,
-                course
+                data: {
+                    course
+                }
             })
         } catch (error) {
             next(error)

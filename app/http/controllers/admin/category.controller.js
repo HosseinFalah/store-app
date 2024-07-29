@@ -3,6 +3,7 @@ const CategoryModel = require("../../../models/categories.model");
 const Controller = require("../controller");
 const { addCategorySchema, updateCategorySchema } = require("../../validators/admin/category.schema");
 const { Types } = require("mongoose");
+const { StatusCodes } = require("http-status-codes");
 
 class CategoryController extends Controller {
     async addCategory(req, res, next) {
@@ -11,9 +12,9 @@ class CategoryController extends Controller {
             const { title, parent } = req.body;
             const category = await CategoryModel.create({ title, parent });
             if (!category) throw createHttpError.InternalServerError("خطای داخلی");
-            return res.status(201).json({
+            return res.status(StatusCodes.CREATED).json({
+                statusCode: StatusCodes.CREATED,
                 data: {
-                    statusCode: 201,
                     message: "دسته بندی با موفقعیت افزوده شد"
                 }
             });
@@ -34,9 +35,9 @@ class CategoryController extends Controller {
             });
 
             if (deleteResult.deletedCount === 0) throw createHttpError.InternalServerError("دسته بندی با موفقعیت حذف نشد");
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     message: "حذف دسته بندی با موفقعیت انجام شد"
                 }
             });
@@ -53,9 +54,9 @@ class CategoryController extends Controller {
             await updateCategorySchema.validateAsync(req.body);
             const resultOfUpdate = await CategoryModel.updateOne({ _id: id }, { $set: { title } });
             if (resultOfUpdate.modifiedCount === 0) throw createHttpError.InternalServerError("بروزرسانی انجام نشد");
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     message: "بروزرسانی با موفقعیت انجام شد"
                 }
             })
@@ -68,9 +69,9 @@ class CategoryController extends Controller {
         try {
             const categories = await CategoryModel.find({ parent: undefined });
 
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     categories
                 }
             });
@@ -84,9 +85,9 @@ class CategoryController extends Controller {
             const categories = await CategoryModel.aggregate([
                 { $match: {} }
             ]);
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     categories
                 }
             })
@@ -119,9 +120,9 @@ class CategoryController extends Controller {
                 },
                 
             ]);
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     category
                 }
             })
@@ -133,9 +134,9 @@ class CategoryController extends Controller {
     async getAllParents(req, res, next) {
         try {
             const parents = await CategoryModel.find({ parent: undefined });
-            return res.status(201).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 201,
                     parents
                 }
             })        
@@ -148,9 +149,9 @@ class CategoryController extends Controller {
         try {
             const { parent } = req.params;
             const children = await CategoryModel.find({ parent }, { __v: 0, parent: 0 });
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
                 data: {
-                    statusCode: 200,
                     children
                 }
             })
