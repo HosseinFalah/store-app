@@ -15,6 +15,21 @@
  * @swagger
  *  components:
  *      schemas:
+ *          AddChapter:
+ *              type: object
+ *              required:
+ *                  -   id
+ *                  -   title
+ *              properties:
+ *                  id:
+ *                      type: string
+ *                      example: "66a659eb7a59157e398be50e"
+ *                  title:
+ *                      type: string
+ *                      example: chapter 1 zero hero javascript
+ *                  text:
+ *                      type: string
+ *                      example: the describe about this chapter
  *          Course:
  *              type: object
  *              required: 
@@ -180,6 +195,26 @@
  *                  name: id
  *                  type: text
  *                  description: find course by id
+ *          responses:
+ *              200:
+ *                  description: success
+ */
+
+/**
+ * @swagger
+ *  /admin/courses/add-chapter:
+ *      put:
+ *          tags: [Course(AdminPanel)]
+ *          summary: create new chapter for course
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/AddChapter'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/AddChapter'
  *          responses:
  *              200:
  *                  description: success

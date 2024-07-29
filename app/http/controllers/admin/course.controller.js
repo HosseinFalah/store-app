@@ -1,5 +1,6 @@
 const path = require('path');
 const createHttpError = require('http-errors');
+const { default: mongoose } = require('mongoose');
 const { StatusCodes } = require('http-status-codes');
 const Controller = require("../controller");
 const CourseModel = require("../../../models/courses.model");
@@ -77,6 +78,34 @@ class CourseController extends Controller {
         } catch (error) {
             next(error)
         }
+    }
+
+    async addChapter(req, res, next) {
+        try {
+            const { id, title, text } = req.body;
+            await this.findCourseById(id);
+            const saveChapterresult = await CourseModel.updateOne({ _id: id }, {$push: {
+                chapters: { title, text, episodes: [] }
+            }});
+
+            if (saveChapterresult.modifiedCount == 0) throw createHttpError.InternalServerError("فصل افزوده نشد");
+
+            return res.status(StatusCodes.CREATED).json({
+                statusCode: StatusCodes.CREATED,
+                data: {
+                    message: "فصل با موفقعیت ایجاد شد"
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async findCourseById(id) {
+        if (!mongoose.isValidObjectId(id)) throw createHttpError.BadRequest("شناسه ارسال شده صحیح نمی باشد");
+        const course = await CourseModel.findById(id);
+        if (!course) throw createHttpError.NotFound("دوره ای یافت نشد");
+        return course;
     }
 };
 
