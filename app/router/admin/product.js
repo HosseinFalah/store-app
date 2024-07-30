@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { ProductController } = require("../../http/controllers/admin/product.controller");
+const { ProductController } = require("../../http/controllers/admin/product/product.controller");
 const { uploadFile } = require("../../utils/multer");
 const { stringToArray } = require("../../http/middlewares/stringToArray");
 

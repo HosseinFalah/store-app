@@ -2,9 +2,9 @@ const path = require('path');
 const createHttpError = require('http-errors');
 const { default: mongoose } = require('mongoose');
 const { StatusCodes } = require('http-status-codes');
-const Controller = require("../controller");
-const CourseModel = require("../../../models/courses.model");
-const { createCourseSchema } = require('../../validators/admin/course.schema');
+const Controller = require("../../controller");
+const CourseModel = require("../../../../models/courses.model");
+const { createCourseSchema } = require('../../../validators/admin/course.schema');
 
 class CourseController extends Controller {
     async getAllCourse(req, res, next) {
@@ -77,27 +77,6 @@ class CourseController extends Controller {
             })
         } catch (error) {
             next(error)
-        }
-    }
-
-    async addChapter(req, res, next) {
-        try {
-            const { id, title, text } = req.body;
-            await this.findCourseById(id);
-            const saveChapterresult = await CourseModel.updateOne({ _id: id }, {$push: {
-                chapters: { title, text, episodes: [] }
-            }});
-
-            if (saveChapterresult.modifiedCount == 0) throw createHttpError.InternalServerError("فصل افزوده نشد");
-
-            return res.status(StatusCodes.CREATED).json({
-                statusCode: StatusCodes.CREATED,
-                data: {
-                    message: "فصل با موفقعیت ایجاد شد"
-                }
-            });
-        } catch (error) {
-            next(error);
         }
     }
 

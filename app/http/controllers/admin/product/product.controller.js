@@ -1,11 +1,11 @@
 const path = require('path');
-const Controller = require("../controller");
+const Controller = require("../../controller");
 const createHttpError = require('http-errors');
 const { StatusCodes } = require('http-status-codes');
-const { createProductSchema } = require("../../validators/admin/product.schema");
-const ProductModel = require('../../../models/products.model');
-const { deleteFileInPublic, ListOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject } = require('../../../utils/functions');
-const { ObjectIdValidator } = require('../../validators/public.validator');
+const { createProductSchema } = require("../../../validators/admin/product.schema");
+const ProductModel = require('../../../../models/products.model');
+const { deleteFileInPublic, ListOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject } = require('../../../../utils/functions');
+const { ObjectIdValidator } = require('../../../validators/public.validator');
 
 const ProductBlackList = {
     BOOKMARKS: "bookmarks",
