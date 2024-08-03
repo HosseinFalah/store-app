@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "get-video-duration": "^4.1.0",
     "http-errors": "^2.0.0",
     "http-status-codes": "^2.3.0",
     "joi": "^17.13.3",
