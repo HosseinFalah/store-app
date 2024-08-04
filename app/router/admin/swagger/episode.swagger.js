@@ -36,6 +36,27 @@
  *                      type: string
  *                      description: the file of video (HH:mm:ss)
  *                      format: binary
+ *          EditEpisode:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      descripion: the title of episode
+ *                      example: video number 1  - for example variable
+ *                  text:
+ *                      type: string
+ *                      description: the description about this episode
+ *                      example: the title about this episode
+ *                  type:
+ *                      type: string
+ *                      description: the episode type (unlock or lock)
+ *                      enum:
+ *                          -   lock
+ *                          -   unlock
+ *                  video:
+ *                      type: string
+ *                      description: the file of video (HH:mm:ss)
+ *                      format: binary
  */
 
 /**
@@ -70,6 +91,32 @@
  *                  name: episodeID
  *                  type: string
  *                  required: true
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/definitions/publicDefinition'
+ */
+
+/**
+ * @swagger
+ *  /admin/episode/update/{episodeID}:
+ *      patch:
+ *          tags: [Episode(AdminPanel)]
+ *          summary: edit episode of chapter
+ *          parameters:
+ *              -   in: path
+ *                  name: episodeID
+ *                  type: string
+ *                  required: true
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditEpisode'
  *          responses:
  *              200:
  *                  description: success
