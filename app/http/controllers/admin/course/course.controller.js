@@ -5,7 +5,7 @@ const { StatusCodes } = require('http-status-codes');
 const Controller = require("../../controller");
 const CourseModel = require("../../../../models/courses.model");
 const { createCourseSchema } = require('../../../validators/admin/course.schema');
-const { copyObject, deleteInvalidPropertyInObject, deleteFileInPublic } = require('../../../../utils/functions');
+const { copyObject, deleteInvalidPropertyInObject, deleteFileInPublic, getTimeOfCourse } = require('../../../../utils/functions');
 
 class CourseController extends Controller {
     async getAllCourse(req, res, next) {
@@ -56,7 +56,6 @@ class CourseController extends Controller {
                 price, 
                 discount,
                 image,
-                time: "00:00:00",
                 status: "notStarted",
                 teacher
             });
@@ -77,7 +76,6 @@ class CourseController extends Controller {
     async getCourseById(req, res, next) {
         try {
             const { id } = req.params;
-            
             const course = await CourseModel.findById(id);
             if (!course) throw createHttpError.NotFound("دوره ای یافت نشد");
 
