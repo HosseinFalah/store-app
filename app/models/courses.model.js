@@ -7,7 +7,11 @@ const Episodes = new Schema({
     type: { type: String, default: "unlock" },
     time: { type: String, required: true },
     videoAddress: { type: String, required: true }
-});
+}, { toJSON: { virtuals: true } });
+
+Episodes.virtual("videoURL").get(function() {
+    return `${process.env.BASE_URL}:${process.env.PORT}/${this.videoAddress}`;
+})
 
 const Chapter = new Schema({
     title: { type: String, required: true },
@@ -34,9 +38,17 @@ const CourseSchema = new Schema({
     teacher: { type: mongoose.Types.ObjectId, ref: "User", required: true},
     chapters: { type: [Chapter], default: [] },
     students: { type: [mongoose.Types.ObjectId], default: [], ref: "User" }
+}, {
+    toJSON: {
+        virtuals: true
+    }
 });
 
 CourseSchema.index({ title: "text", short_text: "text", text: "text" });
+
+CourseSchema.virtual("imageURL").get(function() {
+    return `${process.env.BASE_URL}:${process.env.PORT}/${this.image}`
+});
 
 const CourseModel = model('Course', CourseSchema);
 

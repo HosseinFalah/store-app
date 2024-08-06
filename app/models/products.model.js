@@ -27,9 +27,17 @@ const ProductSchema = new Schema({
         model: [],
         madein: ""
     }}
+}, {
+    toJSON: {
+        virtuals: true
+    }
 });
 
 ProductSchema.index({ title: "text", short_text: "text", text: "text" });
+
+ProductSchema.virtual("imageURL").get(function() {
+    return this.images.map(image => `${process.env.BASE_URL}:${process.env.PORT}/${image}`);
+});
 
 const ProductModel = model('Product', ProductSchema);
 

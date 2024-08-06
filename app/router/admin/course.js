@@ -8,9 +8,9 @@ const router = Router();
 router.get(`/list`, CourseController.getAllCourse); //get all course
 router.post(`/add`, uploadFile.single('image'), stringToArray('tags'), CourseController.addCourse) //create new course
 router.get(`/:id`, CourseController.getCourseById); //get all course
+router.patch(`/update/:id`, uploadFile.single("image"), CourseController.updateCourseById); //edit a course
 // router.put() //create new episode
 // router.delete() //remove a course
-// router.patch() //edit a course
 
 // router.get() //get a course
 

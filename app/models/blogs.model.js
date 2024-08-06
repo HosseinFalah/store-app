@@ -33,6 +33,10 @@ BlogSchema.virtual('category_detail', {
     foreignField: 'category'
 });
 
+BlogSchema.virtual("imageURL").get(function() {
+    return `${process.env.BASE_URL}:${process.env.PORT}/${this.image}`
+});
+
 const BlogModel = model('Blog', BlogSchema);
 
 module.exports = BlogModel;
