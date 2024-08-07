@@ -20,6 +20,9 @@ const UserSchema = new Schema({
     }
 });
 
+
+UserSchema.index({ first_name: "text", last_name: "text", username: "text", mobile: "text", email: "text"});
+
 const UserModel = model('User', UserSchema);
 
 module.exports = UserModel;
