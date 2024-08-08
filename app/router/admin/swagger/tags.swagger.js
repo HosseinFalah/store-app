@@ -3,6 +3,8 @@
  *  tags:
  *      -   name: Admin-Panel
  *          description: action of admin (add, remove, edit and any)
+ *      -   name: Roles(AdminPanel)
+ *          description: RoleBaseAccessControll System create and manage role and permission
  *      -   name: Users(AdminPanel)
  *          description: management users of website
  *      -   name: Course(AdminPanel)
