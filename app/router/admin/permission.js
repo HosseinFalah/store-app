@@ -4,6 +4,7 @@ const { PermissionController } = require("../../http/controllers/admin/RBAC/perm
 const router = Router();
 
 router.get(`/list`, PermissionController.getAllPermissions);
+router.post(`/add`, PermissionController.createNewPermission);
 
 module.exports = {
     PermissionAdminApiRoutes: router

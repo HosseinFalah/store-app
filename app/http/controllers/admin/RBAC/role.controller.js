@@ -21,14 +21,12 @@ class RoleController extends Controller{
 
     async createNewRole(req, res, next) {
         try {
-            console.log(req.body.title);
-            console.log(req.body.permissions);
             const { title, permissions } = await addRoleSchema.validateAsync(req.body);
             await this.findRoleWithTitle(title);
             const role = await RoleModel.create({ title, permissions });
             if (!role) throw createHttpError.InternalServerError("نقش ایجاد نشد")
-            return res.status(StatusCodes.OK).json({
-                statusCode: StatusCodes.OK,
+            return res.status(StatusCodes.CREATED).json({
+                statusCode: StatusCodes.CREATED,
                 data: {
                     message: "نقش با موفقعیت ایجاد شد"
                 }

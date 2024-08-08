@@ -17,12 +17,12 @@
  *          Permission:
  *              type: object
  *              required:
- *                  -   title
+ *                  -   name
  *                  -   description
  *              properties:
- *                  title:
+ *                  name:
  *                      type: string
- *                      description: the title of permission
+ *                      description: the name of permission
  *                  description:
  *                      type: string
  *                      description: the description of permission
@@ -35,9 +35,9 @@
  *          Edit-Permission:
  *              type: object
  *              properties:
- *                  title:
+ *                  name:
  *                      type: string
- *                      description: the title of permission
+ *                      description: the name of permission
  *                  description:
  *                      type: string
  *                      description: the description of permission
@@ -63,9 +63,9 @@
  *                                  _id:
  *                                      type: string
  *                                      example: 66a659eb7a59157e398be50e
- *                                  title:
+ *                                  name:
  *                                      type: string
- *                                      example: "title of permission"
+ *                                      example: "name of permission"
  *                                  description:
  *                                      type: string
  *                                      description: the description of permission
@@ -96,7 +96,7 @@
  *          requestBody:
  *              required: true
  *              content:
- *                  multipart/x-www-form-urlencoded:
+ *                  application/x-www-form-urlencoded:
  *                      schema:
  *                          $ref: '#/components/schemas/Permission'
  *          responses:
