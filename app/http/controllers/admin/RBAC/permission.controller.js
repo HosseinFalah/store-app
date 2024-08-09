@@ -1,9 +1,9 @@
+const createHttpError = require("http-errors");
 const { StatusCodes } = require("http-status-codes");
 
 const Controller = require("../../controller");
 const PermissionModel = require("../../../../models/permissions.model");
 const { addPermissionSchema } = require("../../../validators/admin/RBAC.schema");
-const createHttpError = require("http-errors");
 
 class PermissionController extends Controller{
     async getAllPermissions(req, res, next) {
@@ -40,7 +40,7 @@ class PermissionController extends Controller{
     async findPermissionWithName(name) {        
         const permission = await PermissionModel.findOne({ name });
         if (permission) throw createHttpError.BadRequest("دسترسی قبلا ثبت شده")
-    }
+    };
 }
 
 module.exports = {

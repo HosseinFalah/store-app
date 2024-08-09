@@ -6,6 +6,7 @@ const router = Router();
 
 router.get(`/list`, RoleController.getAllRoutes);
 router.post(`/add`, stringToArray('permissions'), RoleController.createNewRole);
+router.delete(`/remove/:field`, RoleController.removeRole);
 
 module.exports = {
     RoleAdminApiRoutes: router

@@ -133,13 +133,13 @@
 
 /**
  * @swagger
- *  /admin/role/remove/{id}:
+ *  /admin/role/remove/{field}:
  *      delete:
  *          tags: [Roles(AdminPanel)]
  *          summary: remove the Role
  *          parameters:
  *              -   in: path
- *                  name: id
+ *                  name: field
  *                  type: string
  *                  required: true
  *          responses:
