@@ -37,10 +37,33 @@ class PermissionController extends Controller{
         }
     };
 
+    async removePermission(req, res, next) {
+        try {
+            const { id } = req.params;
+            await this.findPermissionWithID(id);
+            const removePermissionResult = await PermissionModel.deleteOne({ _id: id });
+            if (!removePermissionResult.deletedCount) throw createHttpError.InternalServerError("دسترسی حذف نشد");
+            return res.status(StatusCodes.OK).json({
+                statusCode: StatusCodes.OK,
+                data: {
+                    message: "دسترسی با موفقعیت حذف شد"
+                }
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async findPermissionWithName(name) {        
         const permission = await PermissionModel.findOne({ name });
         if (permission) throw createHttpError.BadRequest("دسترسی قبلا ثبت شده")
     };
+
+    async findPermissionWithID(_id) {
+        const permission = await PermissionModel.findOne({ _id });
+        if (!permission) throw createHttpError.NotFound("سطح یافت نشد");
+        return permission;
+    }
 }
 
 module.exports = {
